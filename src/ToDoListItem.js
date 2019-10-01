@@ -15,8 +15,6 @@ class ToDoListItem extends Component {
         const {
             title,
             description,
-            // onClick,
-            // id,
             check,
         } = this.props;
 
@@ -36,11 +34,8 @@ class ToDoListItem extends Component {
                 <div className="toDoListItem">
                     <div className="toDoListItem-title">タイトル：{title}</div>
                     <div className="toDoListItem-description">内容：{description}</div>
-                    {/* <div>{id}</div> */}
                 </div>
                 <input
-                    // className="toDoListRemoveButton"
-                    // onClick={onClick}
                     type="checkbox"
                     name="check"
                     checked={check}

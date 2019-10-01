@@ -1,6 +1,7 @@
 .ToDoListItemButton {
     background-color: #7fffd4;
     width: 600px;
+    text-align: center;
 }
 
 .ToDoListItem {
