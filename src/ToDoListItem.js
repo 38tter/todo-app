@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import './ToDoListItem.css';
 import styled from "styled-components";
+import { Checkbox } from 'pretty-checkbox-react';
 
 class ToDoListItem extends Component {
 
@@ -13,35 +13,40 @@ class ToDoListItem extends Component {
 
     render(){
         const {
-            title,
             description,
             check,
         } = this.props;
 
-        const Button = styled.div`
+        const Todolist = styled.div`
             padding: 12px;
-            background-color: #7fffd4;
+            background-color: aquamarine;
             text-align: center;
-            width: 300px;
-            border: 1px solid;
-            border-radius: 4px;
-            margin: 5px;
+            width: 30%;
+            margin: auto;
             box-shadow: 0 0 7px #1abc9c;
         `;
 
+        const ToDoListItemDescription = styled.div`
+            word-wrap: break-word;
+            padding: 8px;
+
+        `
+
         return(
-            <Button>
-                <div className="toDoListItem">
-                    <div className="toDoListItem-title">タイトル：{title}</div>
-                    <div className="toDoListItem-description">内容：{description}</div>
+            <div style={{margin: '20px'}}>
+            <Todolist>
+                <div className="toDoListItemChild">
+                    <ToDoListItemDescription>{description}</ToDoListItemDescription>
                 </div>
-                <input
-                    type="checkbox"
-                    name="check"
-                    checked={check}
-                    onChange={this.toggleCheck.bind(this)}
-                />
-            </Button>
+                <div>
+                    <Checkbox 
+                        checked={check}
+                        onChange={this.toggleCheck.bind(this)}
+                        style={{float: 'left'}}
+                    ></Checkbox>
+                </div>
+            </Todolist>
+            </div>
         )
     }
 }

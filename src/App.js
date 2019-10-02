@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import ToDoListItem from "./ToDoListItem.js";
-// import Select from 'react-select';
 
 const CLIENT_ID = `564250750842-1qrf45e733j38pdm6gkht4khatnnrd90.apps.googleusercontent.com`;
-// const API_KEY = `AIzaSyBBNjX1QaPU5r_5L3Fr5oqJOtTqD59G0g8`;
-const GET_DEPTH = 2;
+const GET_DEPTH = 5; //Google カレンダーからの取得時、各カレンダーから取得する件数
 
 let scopes = [
   'https://www.googleapis.com/auth/calendar.readonly',
@@ -49,13 +47,10 @@ class App extends Component {
                     for(var j = 0; j < GET_DEPTH; j++){
                       if(res.result.items[j]){
                         let idDas = new Date();
-                        console.log(res);
-                        if(idDas > res.result.items[j].end.dateTime)console.log('now mondai');
                         my.setState(
                           {
                             todoList: my.state.todoList.concat({
-                              title: res.result.items[j].summary,
-                              description: 'heke',
+                              description: res.result.items[j].summary,
                               result: '',
                               id: idDas,
                             }),
@@ -79,10 +74,8 @@ class App extends Component {
   handleAuthResult = (authResult) => {
     var authorizeButton = document.getElementById('authorize-button');
     if (authResult && !authResult.error) {
-      // authorizeButton.style.visibility = 'hidden';
       this.makeApiCall();
     } else {
-      // authorizeButton.style.visibility = '';
       authorizeButton.onclick = this.handleAuthClick;
     }
   }
@@ -154,19 +147,18 @@ class App extends Component {
 
     return (
       <div className="App">
+        <p>Simple Todo app</p>
         <form
+          style={{margin: 'auto'}}
           className="App-form"
           onSubmit={e => {
             e.preventDefault();
-
-            const titleElement = e.target.elements["title"];
             const descriptionElement = e.target.elements["description"];
             const resultElement = false;
 
             this.setState(
               {
                 todoList: this.state.todoList.concat({
-                  title: titleElement.value,
                   description: descriptionElement.value,
                   result: resultElement.value,
                   id: new Date(),
@@ -174,17 +166,12 @@ class App extends Component {
                 sortfilter: "",
               },
               () => {
-                titleElement.value = "";
                 descriptionElement.value = "";
               }
             )
           }}
         >
           <div>
-            <input
-              id="title"
-              placeholder="title"
-            />
             <textarea
               id="description"
               placeholder="description"
@@ -194,26 +181,25 @@ class App extends Component {
             <button
               type="submit"
             >
-              登録
+              add
             </button>
           </div>
         </form>
         <div>
-          {/* <button id="authorize-button" style={{visibility: 'hidden'}}>Authorize</button> */}
-          <button onClick={this.handleAuthClick}>Googleカレンダーから予定を追加</button>
+          <button onClick={this.handleAuthClick}>Import from Google calendar</button>
         </div>
         <select name="hoge" onChange={this.handleSort.bind(this)}>
           <option value="all">All</option>
-          <option value="incomplete">Incompelete</option>
-          <option value="complete">Complete</option>
+          <option value="incomplete">Incomplete</option>
+          <option value="complete">Completed</option>
         </select>
         <div>
           {
             filterTodoList.map(todo =>
           (
             <ToDoListItem
-              key={todo.title}
-              title={todo.title}
+              key={todo.description}
+              // title={todo.title}
               description={todo.description}
               result={todo.result}
               id={todo.id}
